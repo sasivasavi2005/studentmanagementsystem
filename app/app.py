@@ -33,5 +33,25 @@ def add():
     db. session.add(newStudent)
     db.session.commit()
     return render_template('index.html')
+
+@app.route('/edit<int:id>',methods=['GET','POST'])
+def edit_student(id):
+    studs = Students.query.get_or_404(id)#get the student id
+    if request.method == 'POST':
+        studs.name=request.form['name']
+        studs.age=request.form['age']
+        studs.course=request.form['course']
+        db.session.commit()
+        return redirect(url_for('home'))
+    return render_template('edit.html',student=studs)
+
+@app.route('/delete/<int:id>',methods=['POST'])
+def delete_student(id):
+    studs = Students.query.get_or_404(id)#get the student id
+    db.session.delete(studs)
+    db.session.commit()
+    return redirect(url_for('home'))
+
+
 if __name__=='__main__':
     app.run(debug=True)
