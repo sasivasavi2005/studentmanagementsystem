@@ -1,11 +1,13 @@
-from flask import Flask,render_template,request,redirect
+from flask import Flask,render_template,request,redirect,url_for
 from flask_sqlalchemy import SQLAlchemy
 #initilaize flask app
 app=Flask(__name__)
+#configure the sqlalchemy database
 app.config['SQLALCHEMY_DATABASE_URI']='mysql://root:admin123@localhost/student_management'
-app.config['SQLALCHEMY_TRACK-MODIFICATIONS']=False
-
+app.config['SQLALCHEMY_TRACK-MODIFICATIONS']=False#fixed the typo here
+#initilaize the database
 db=SQLAlchemy(app)
+#deine the students model
 class Students(db.Model):
     id=db.Column(db.Integer,primary_key=True)
     name=db.Column(db.String(100),nullable=False)
@@ -14,10 +16,22 @@ class Students(db.Model):
 
     def __repr__(self):
         return f"Student('{self.name}','{self.age}','{self.course}')"
-
+ 
 @app.route('/')
 def home():
     students=Students.query.all()
     return render_template('index.html',students=students)
+
+@app.route('/add',methods=['POST'])
+def add():
+    formName=request.form['name']
+    formAge=request.form['age']
+    formCourse=request.form['course']
+
+    #create new student record 
+    newStudent= Students(name=formName, age=formAge , course=formCourse )
+    db. session.add(newStudent)
+    db.session.commit()
+    return render_template('index.html')
 if __name__=='__main__':
     app.run(debug=True)
