@@ -4,8 +4,9 @@ from flask_sqlalchemy import SQLAlchemy
 app=Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI']='mysql://root:admin123@localhost/student_management'
 app.config['SQLALCHEMY_TRACK-MODIFICATIONS']=False
-
+#initialize the database
 db=SQLAlchemy(app)
+#define student model
 class Students(db.Model):
     id=db.Column(db.Integer,primary_key=True)
     name=db.Column(db.String(100),nullable=False)

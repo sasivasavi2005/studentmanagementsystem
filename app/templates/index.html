@@ -34,6 +34,14 @@
             </tr>
         </thead>
         <tbody>
+            {% for student in students %}
+            <tr>
+                <td>{{student.id}}</td>
+                <td>{{student.name}}</td>
+                <td>{{student.age}}</td>
+                <td>{{student.course}}</td>
+            </tr>
+            {% endfor %}
             <tr>
                 <td>7038</td>
                 <td>sasi</td>
