@@ -9,6 +9,7 @@ app.config['SQLALCHEMY_TRACK-MODIFICATIONS']=False#fixed the typo here
 db=SQLAlchemy(app)
 #deine the students model
 class Students(db.Model):
+    
     id=db.Column(db.Integer,primary_key=True)
     name=db.Column(db.String(100),nullable=False)
     age=db.Column(db.Integer,nullable=False)
